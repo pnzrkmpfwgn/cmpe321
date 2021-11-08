@@ -1,16 +1,12 @@
-import numpy as np
 import matplotlib.pyplot as plt
- 
-t=np.arange(0,3,0.02)
-freqs=[1, 1]
-amps=[1, 0.5]
-phis=[-np.pi/2, np.pi/6]
- 
+import numpy as np
+num_pts=100
+t=np.arange(0,1,1/num_pts)
 
-for (freq, amp, phi) in zip(freqs,amps,phis):
-    omega=2*np.pi*freq
-    signal=amp*np.cos(omega*t+phi)
-    plt.plot(t,signal, label=f'{freq} Hz')
+x=5*np.sin(2*np.pi*25*t) + 3*np.sin(2*np.pi*15*t)
 
-plt.legend()
-plt.show()
+fft_coeffs=1/num_pts*np.fft.fft(x)
+freqs=np.fft.fftfreq(len(x),1/num_pts)
+plt.stem(freqs, np.abs(fft_coeffs), 'b', markerfmt=" ", basefmt="-b")
+plt.xlabel('Freq (Hz)')
+plt.ylabel('FFT Amplitude |X(freq)|')
